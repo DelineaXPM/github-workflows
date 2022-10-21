@@ -41,3 +41,7 @@ jobs:
         env:
           # Race conditions will be hit due to the cli driven tasks and binaries being called.
           GOTEST_DISABLE_RACE: 1
+
+      - uses: codecov/codecov-action@v3
+        with:
+          fail_ci_if_error: false

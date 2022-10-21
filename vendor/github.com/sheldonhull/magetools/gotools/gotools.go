@@ -52,7 +52,7 @@ const (
 // This includes goreleaser, golangci-lint, etc (for random build/titles).
 //
 // In addition, core tooling from VSCode Install Tool commands are included so using in a Codespace project doesn't require anything other than mage go:init.
-var toolList = []string{ //nolint:gochecknoglobals // ok to be global for tooling setup
+var toolList = []string{
 
 	// build tools
 	"github.com/goreleaser/goreleaser@latest",  // NOTE: 2022-03-25: latest results in error with  undefined: strings.Cut note: module requires Go 1.18 WHEN BUILDING FROM SOURCE
@@ -84,7 +84,7 @@ var toolList = []string{ //nolint:gochecknoglobals // ok to be global for toolin
 
 // CIToolList is key go tools likely required for CI.
 // This separates out the tools that are dev specific (like a language server tool) and others that would still be needed in CI systems.
-var ciToolList = []string{ //nolint:gochecknoglobals // ok to be global for tooling setup
+var ciToolList = []string{
 	"github.com/goreleaser/goreleaser@latest", // NOTE: 2022-03-25: latest results in error with  undefined: strings.Cut note: module requires Go 1.18 WHEN BUILDING FROM SOURCE
 	"github.com/golangci/golangci-lint/cmd/golangci-lint@latest",
 	"gotest.tools/gotestsum@latest", // ability to run tests with junit, json output, xml, and more.
@@ -114,7 +114,7 @@ func (Go) GetModuleName() string {
 
 // NOTE: this didn't work compared to running with RunV, so I'm commenting out for now.
 // golanglint is alias for running golangci-lint.
-// var golanglint = sh.RunCmd("golangci-lint") //nolint:gochecknoglobals // ok to be global for tooling setup
+// var golanglint = sh.RunCmd("golangci-lint")
 
 // ⚙️  Init runs all required steps to use this package.
 func (Go) Init() error {
