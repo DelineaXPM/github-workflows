@@ -1,4 +1,4 @@
-module github.com/DelineaXPM/dsv-repo-template
+module github.com/DelineaXPM/github-workflows
 
 go 1.18
 

@@ -5,7 +5,7 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/DelineaXPM/dsv-repo-template/magefiles/constants"
+	"github.com/DelineaXPM/github-workflows/magefiles/constants"
 
 	"github.com/bitfield/script"
 	"github.com/magefile/mage/mg"

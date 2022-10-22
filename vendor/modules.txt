@@ -53,7 +53,6 @@ github.com/sheldonhull/magetools/ci
 github.com/sheldonhull/magetools/gotools
 github.com/sheldonhull/magetools/pkg/magetoolsutils
 github.com/sheldonhull/magetools/pkg/req
-github.com/sheldonhull/magetools/secrets
 github.com/sheldonhull/magetools/tooling
 # github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e
 ## explicit; go 1.19
