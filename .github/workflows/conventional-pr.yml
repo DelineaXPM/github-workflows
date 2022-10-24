@@ -8,6 +8,9 @@ on:
       - opened
       - edited
       - synchronize
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.action }}
+  cancel-in-progress: true
 jobs:
   main:
     name: conventional-commit-pr-title
