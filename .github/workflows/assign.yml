@@ -1,7 +1,7 @@
 ---
 name: assign
 on:
-  # pull_request: # For testing changes in branch
+  # on why it's reasonable to use pull_request_target for this purpose: https://securitylab.github.com/research/github-actions-preventing-pwn-requests/#:~:text=The%20main%20differences%20between%20the,but%20not%20from%20external%20forks.
   pull_request_target:
     types: [opened, ready_for_review]
   workflow_call:
