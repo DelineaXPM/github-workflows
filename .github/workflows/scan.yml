@@ -1,0 +1,18 @@
+---
+name: scan
+on:
+  workflow_call:
+
+permissions:
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.action }}
+  cancel-in-progress: true
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: govuln-scan
+        uses: elgohr/go-vulncheck-action@8f8fe6550c202b7a4a6b13e9d2573598e25f9b22 # renovate tag=v1
