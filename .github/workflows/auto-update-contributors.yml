@@ -21,3 +21,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           use_username: true
           collaborators: all
+# To Use This Place This Section In Readme
+
+# # Put this in README.md
+
+# ## Contributors
+
+# <!-- prettier-ignore-start -->
+# <!-- markdownlint-disable -->
+
+# <!-- readme: collaborators,contributors -start -->
+# <!-- readme: collaborators,contributors -end -->
+
+# <!-- markdownlint-restore -->
+# <!-- prettier-ignore-end -->)
