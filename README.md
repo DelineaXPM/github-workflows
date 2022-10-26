@@ -13,6 +13,16 @@ These are subject to breaking changes and managed by the DevOps Secrets Vault te
 <!-- markdownlint-disable -->
 
 <!-- readme: collaborators,contributors -start -->
+<table>
+<tr>
+    <td align="center">
+        <a href="https://github.com/sheldonhull">
+            <img src="https://avatars.githubusercontent.com/u/3526320?v=4" width="100;" alt="sheldonhull"/>
+            <br />
+            <sub><b>Sheldonhull</b></sub>
+        </a>
+    </td></tr>
+</table>
 <!-- readme: collaborators,contributors -end -->
 
 <!-- markdownlint-restore -->
