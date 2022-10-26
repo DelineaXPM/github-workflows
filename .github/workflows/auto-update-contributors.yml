@@ -1,0 +1,23 @@
+---
+name: auto-update-contributors
+on:
+  schedule:
+    - cron: 30 1 * * *
+  workflow_call:
+permissions:
+  pull-requests: write
+  contents: write
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  contrib-readme-job:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Contribute List
+        uses: akhilmhdh/contributors-readme-action@098389139f2fabed92e52606268941dbff381edb # renovate: tag=v2.3.6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          use_username: true
+          collaborators: all
