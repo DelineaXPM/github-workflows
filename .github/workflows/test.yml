@@ -6,12 +6,29 @@ on:
     tags:
       - v*
   workflow_dispatch:
+    inputs:
+      gotestflags:
+        type: string
+        description: 'GOTEST_FLAGS to pass'
+        required: false
+        default: '--tags=integration'
   workflow_call:
+    inputs:
+      gotestflags:
+        type: string
+        description: 'GOTEST_FLAGS to pass'
+        required: false
+        default: '--tags=integration'
+defaults:
+  run:
+    shell: bash
+
 permissions:
   contents: read
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.action }}
   cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -48,11 +65,14 @@ jobs:
         run: |
           export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin/aqua:${PATH}"
           export PATH="$(go env GOPATH)/bin:${PATH}"
+          USER_GOTESTFLAGS="${{ github.event.inputs.name }}"
+          # Use user input or fall back to --tags=integration if nothing provided
+          GOTEST_FLAGS=${USER_GOTESTFLAGS:-"--tags=integration"}
           mage go:testsum ./...
         env:
           # Race conditions will be hit due to the cli driven tasks and binaries being called.
           GOTEST_DISABLE_RACE: 1
-          GOTEST_FLAGS: '--tags=integration'
+          # GOTEST_FLAGS: '${{ inputs.gotestflags }}'
 
       - uses: codecov/codecov-action@d9f34f8cd5cb3b3eb79b3e4b5dae3a16df499a70 # renovate: tag=v3.1.1
         with:
