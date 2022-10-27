@@ -13,5 +13,32 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+      - uses: aquaproj/aqua-installer@c553e04154f1f3b7e5eb35da058db3bb782bee8a # renovate: tag=v1.1.2
+        with:
+          aqua_version: v1.21.0
+          enable_aqua_install: true
+          # aqua_opts: ""
+        env:
+          AQUA_LOG_LEVEL: debug
+          AQUA_OPTS: ''
+      - name: env-config-go
+        run: |
+          echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
+      # no pinning of github managed action
+      - name: Setup Golang caches
+        uses: actions/cache@v3
+        with:
+          path: |
+            ${HOME}/.cache/go-build
+            ${HOME}/go/pkg/mod
+          key: ${{ runner.os }}-golang-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-golang-
       - name: govuln-scan
         uses: elgohr/go-vulncheck-action@8f8fe6550c202b7a4a6b13e9d2573598e25f9b22 # renovate tag=v1
+      # - name: mage-vulcheck
+      #   run: |
+      #     export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin/aqua:${PATH}"
+      #     export PATH="$(go env GOPATH)/bin:${PATH}"
+      #     mage vulncheck
