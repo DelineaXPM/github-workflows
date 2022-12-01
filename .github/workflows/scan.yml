@@ -44,7 +44,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-golang-
       - name: govuln-scan
-        uses: elgohr/go-vulncheck-action@8f8fe6550c202b7a4a6b13e9d2573598e25f9b22 # renovate tag=v1
+        uses: elgohr/go-vulncheck-action@9e0ac00ecb926e46adfb4de23b248c4ba78ba09a # renovate tag=v1
       # - name: mage-vulcheck
       #   run: |
       #     export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin/aqua:${PATH}"
