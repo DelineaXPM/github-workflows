@@ -56,11 +56,11 @@ jobs:
           key: ${{ runner.os }}-golang-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-golang-
-      - name: mage-init
-        run: |
-          export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin/aqua:${PATH}"
-          export PATH="$(go env GOPATH)/bin:${PATH}"
-          mage init
+      # - name: mage-init
+      #   run: |
+      #     export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin/aqua:${PATH}"
+      #     export PATH="$(go env GOPATH)/bin:${PATH}"
+      #     mage init
       - name: mage-testsum
         run: |
           export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin/aqua:${PATH}"
