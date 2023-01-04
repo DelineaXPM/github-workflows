@@ -43,8 +43,11 @@ jobs:
           key: ${{ runner.os }}-golang-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-golang-
+      # This should be informational, and not block as it's experimental and no exclusion logic at this time that I've found.
+      # https://go.dev/security/vuln/#feedback
       - name: govuln-scan
         uses: elgohr/go-vulncheck-action@9e0ac00ecb926e46adfb4de23b248c4ba78ba09a # renovate tag=v1
+        continue-on-error: true
       # - name: mage-vulcheck
       #   run: |
       #     export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin/aqua:${PATH}"
