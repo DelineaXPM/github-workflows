@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/bitfield/script v0.21.4
 	github.com/magefile/mage v1.14.0
-	github.com/pterm/pterm v0.12.50
+	github.com/pterm/pterm v0.12.53
 	github.com/sheldonhull/magetools v1.0.0
 )
 
@@ -27,5 +27,5 @@ require (
 	golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4 // indirect
 	golang.org/x/sys v0.0.0-20221006211917-84dc82d7e875 // indirect
 	golang.org/x/term v0.0.0-20220919170432-7a66f970e087 // indirect
-	golang.org/x/text v0.4.0 // indirect
+	golang.org/x/text v0.6.0 // indirect
 )
