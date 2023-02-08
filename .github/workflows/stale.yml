@@ -32,3 +32,4 @@ jobs:
           close-pr-label: stale
           exempt-draft-pr: true
           delete-branch: false
+          ignore-pr-updates: true # else renovate prs will never age out
