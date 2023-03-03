@@ -1,0 +1,27 @@
+---
+name: cache-trunk
+on:
+  pull_request:
+  push:
+    branches: [main]
+    paths: [.trunk/trunk.yaml]
+  workflow_dispatch:
+  workflow_call:
+
+permissions: read-all
+# permission for job is actions-write
+
+jobs:
+  build-cache:
+    name: Cache Trunk
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Trunk Check
+        uses: trunk-io/trunk-action@v1
+        with:
+          check-mode: populate_cache_only

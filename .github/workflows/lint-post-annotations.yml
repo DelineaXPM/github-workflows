@@ -1,0 +1,22 @@
+---
+# workflow to seperately push annotations and support both forked and standard workflows securely
+# https://github.com/marketplace/actions/trunk-check
+name: annotate-pr-with-lint-issues
+on:
+  workflow_run:
+    workflows: ['lint']
+    types: [completed]
+  workflow_call:
+
+jobs:
+  trunk-annotate:
+    name: trunk-annotate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Trunk Check
+        uses: trunk-io/trunk-action@v1
+        with:
+          post-annotations: true # only for fork PRs
