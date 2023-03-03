@@ -19,10 +19,15 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
-      # Automatically caches for performance as well
-      # https://github.com/reviewdog/action-golangci-lint
-      # - name: golangci-lint
-      #   uses: reviewdog/action-golangci-lint@70498f2d1f75a55ee9a4d719e74e21ed68aebea3 # renovate: tag=v2
+      - uses: aquaproj/aqua-installer@a39f721a15ed34ccbc85706e6e8ae8572c9ca9c6 # tag=v1.2.0
+        continue-on-error: true
+        with:
+          aqua_version: v1.32.0
+          enable_aqua_install: true
+          aqua_opts: '--tags lint' # if using aqua.yaml config any special items in your repo like Golangci-lint using tags so it only installs what's needed
+        env:
+          AQUA_LOG_LEVEL: debug
+          AQUA_OPTS: ''
       - name: trunk-check
         uses: trunk-io/trunk-action@9cf65e08e822e9842fd9ef7ed2a2bd9092de0986 # tag=v1.0.6
         with:
