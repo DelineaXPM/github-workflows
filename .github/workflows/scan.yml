@@ -22,11 +22,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: set-aqua-policy-if-file-exists
+        run: |
+          if [ -f aqua-policy.yaml ]; then
+            echo "AQUA_POLICY_CONFIG=${GITHUB_WORKSPACE}/aqua-policy.yaml:${AQUA_POLICY_CONFIG}" >> $GITHUB_ENV
+          else
+            echo "👉 No aqua-policy.yaml file found, skipping setting AQUA_POLICY_CONFIG"
+          fi
       - uses: aquaproj/aqua-installer@61e2563dfe7674cbf74fe6ec212e444198a3bb00 # v2.0.2
         with:
           aqua_version: v1.32.0
           enable_aqua_install: true
-          # aqua_opts: ""
+          aqua_opts: '--tags scan'
         env:
           AQUA_LOG_LEVEL: debug
           AQUA_OPTS: ''
