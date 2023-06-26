@@ -21,7 +21,7 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
       - name: set-aqua-policy-if-file-exists
         run: |
           if [ -f aqua-policy.yaml ]; then
@@ -29,7 +29,7 @@ jobs:
           else
             echo "👉 No aqua-policy.yaml file found, skipping setting AQUA_POLICY_CONFIG"
           fi
-      - uses: aquaproj/aqua-installer@61e2563dfe7674cbf74fe6ec212e444198a3bb00 # v2.0.2
+      - uses: aquaproj/aqua-installer@36dc5833b04eb63f06e3bb818aa6b7a6e6db99a9 # v2.1.2
         with:
           aqua_version: v2.9.0
           enable_aqua_install: true
@@ -42,7 +42,7 @@ jobs:
           echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
       # no pinning of github managed action
       - name: Setup Golang caches
-        uses: actions/cache@v3
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         with:
           path: |
             ${HOME}/.cache/go-build
@@ -53,7 +53,7 @@ jobs:
       # This should be informational, and not block as it's experimental and no exclusion logic at this time that I've found.
       # https://go.dev/security/vuln/#feedback
       - name: govuln-scan
-        uses: elgohr/go-vulncheck-action@90e331d6e77587505906ef175d4b44a1d2cb6a63 # renovate tag=v1
+        uses: elgohr/go-vulncheck-action@479d95b4165648031270d4ed58b5d4082edb2fd0 # renovate tag=v1
         continue-on-error: true
       # - name: mage-vulcheck
       #   run: |
@@ -72,11 +72,11 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@f6e388ebf0efc915c6c5b165b019ee61a6746a38 # v2
         with:
           languages: ${{ matrix.language }}
           # If you wish to specify custom queries, you can do so here or in a config file.
@@ -89,7 +89,7 @@ jobs:
       # Autobuild attempts to build any compiled languages  (C/C++, C#, Go, or Java).
       # If this step fails, then you should remove it and run the build manually (see below)
       - name: Autobuild
-        uses: github/codeql-action/autobuild@v2
+        uses: github/codeql-action/autobuild@f6e388ebf0efc915c6c5b165b019ee61a6746a38 # v2
 
       # ℹ️ Command-line programs to run using the OS shell.
       # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
@@ -101,6 +101,6 @@ jobs:
       #   ./location_of_script_within_repo/buildscript.sh
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@f6e388ebf0efc915c6c5b165b019ee61a6746a38 # v2
         with:
           category: '/language:${{matrix.language}}'

@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
       - name: set-aqua-policy-if-file-exists
         run: |
           if [ -f aqua-policy.yaml ]; then
@@ -42,7 +42,7 @@ jobs:
           else
             echo "👉 No aqua-policy.yaml file found, skipping setting AQUA_POLICY_CONFIG"
           fi
-      - uses: aquaproj/aqua-installer@61e2563dfe7674cbf74fe6ec212e444198a3bb00 # v2.0.2
+      - uses: aquaproj/aqua-installer@36dc5833b04eb63f06e3bb818aa6b7a6e6db99a9 # v2.1.2
         with:
           aqua_version: v2.9.0
           enable_aqua_install: true
@@ -55,7 +55,7 @@ jobs:
           echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
       # no pinning of github managed action
       - name: Setup Golang caches
-        uses: actions/cache@v3
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         with:
           path: |
             ${HOME}/.cache/go-build
@@ -81,6 +81,6 @@ jobs:
           GOTEST_DISABLE_RACE: 1
           # GOTEST_FLAGS: '${{ inputs.gotestflags }}'
 
-      - uses: codecov/codecov-action@d9f34f8cd5cb3b3eb79b3e4b5dae3a16df499a70 # renovate: tag=v3.1.1
+      - uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d # v3.1.4
         with:
           fail_ci_if_error: false
