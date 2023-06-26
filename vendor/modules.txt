@@ -15,8 +15,8 @@ github.com/bitfield/script
 # github.com/containerd/console v1.0.3
 ## explicit; go 1.13
 github.com/containerd/console
-# github.com/dustin/go-humanize v1.0.0
-## explicit
+# github.com/dustin/go-humanize v1.0.1
+## explicit; go 1.16
 github.com/dustin/go-humanize
 # github.com/gookit/color v1.5.3
 ## explicit; go 1.18
@@ -30,9 +30,6 @@ github.com/itchyny/timefmt-go
 # github.com/lithammer/fuzzysearch v1.1.8
 ## explicit; go 1.15
 github.com/lithammer/fuzzysearch/fuzzy
-# github.com/logrusorgru/aurora v2.0.3+incompatible
-## explicit
-github.com/logrusorgru/aurora
 # github.com/magefile/mage v1.15.0
 ## explicit; go 1.12
 github.com/magefile/mage/mg
@@ -47,7 +44,7 @@ github.com/pterm/pterm/internal
 # github.com/rivo/uniseg v0.4.4
 ## explicit; go 1.18
 github.com/rivo/uniseg
-# github.com/sheldonhull/magetools v1.0.0
+# github.com/sheldonhull/magetools v1.0.1
 ## explicit; go 1.18
 github.com/sheldonhull/magetools/ci
 github.com/sheldonhull/magetools/gotools
@@ -57,10 +54,10 @@ github.com/sheldonhull/magetools/tooling
 # github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e
 ## explicit; go 1.19
 github.com/xo/terminfo
-# github.com/ztrue/tracerr v0.3.0
+# github.com/ztrue/tracerr v0.4.0
 ## explicit
 github.com/ztrue/tracerr
-# golang.org/x/mod v0.8.0
+# golang.org/x/mod v0.10.0
 ## explicit; go 1.17
 golang.org/x/mod/internal/lazyregexp
 golang.org/x/mod/modfile
