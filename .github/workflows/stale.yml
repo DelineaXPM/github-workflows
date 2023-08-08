@@ -23,13 +23,15 @@ jobs:
           days-before-close: 5
           stale-issue-message: 🤖 This has been flagged as stale. If it is still relevant please post an update with context, otherwise this will shortly be closed. _You can always reopen a closed issue. This is not a permanent delete._
           stale-pr-message: 🤖 This is being marked as stale due to no recent activity. Update to keep this open.
-          stale-issue-label: stale-issue
+          stale-issue-label: stale
           exempt-issue-labels: pinned, security
           exempt-pr-labels: pinned, security
           stale-pr-label: stale
-          stale-issue-label: stale
           close-issue-label: stale
           close-pr-label: stale
           exempt-draft-pr: true
           delete-branch: false
           ignore-pr-updates: true # else renovate prs will never age out
+          labels-to-remove-when-unstale: stale
+          enable-statistics: true
+          
