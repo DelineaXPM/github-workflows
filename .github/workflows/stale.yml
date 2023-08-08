@@ -27,7 +27,7 @@ jobs:
           exempt-issue-labels: pinned, security
           exempt-pr-labels: pinned, security
           stale-pr-label: stale
-          stale-issues-label: stale
+          stale-issue-label: stale
           close-issue-label: stale
           close-pr-label: stale
           exempt-draft-pr: true
