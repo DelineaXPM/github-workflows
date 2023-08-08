@@ -24,8 +24,8 @@ jobs:
           stale-issue-message: 🤖 This has been flagged as stale. If it is still relevant please post an update with context, otherwise this will shortly be closed. _You can always reopen a closed issue. This is not a permanent delete._
           stale-pr-message: 🤖 This is being marked as stale due to no recent activity. Update to keep this open.
           stale-issue-label: stale
-          exempt-issue-labels: pinned, security
-          exempt-pr-labels: pinned, security
+          exempt-issue-labels: pinned, security, dependencies
+          exempt-pr-labels: pinned, security, dependencies
           stale-pr-label: stale
           close-issue-label: stale
           close-pr-label: stale
