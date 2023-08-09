@@ -53,7 +53,7 @@ jobs:
       # This should be informational, and not block as it's experimental and no exclusion logic at this time that I've found.
       # https://go.dev/security/vuln/#feedback
       - name: govuln-scan
-        uses: elgohr/go-vulncheck-action@479d95b4165648031270d4ed58b5d4082edb2fd0 # renovate tag=v1
+        uses: elgohr/go-vulncheck-action@d424c8570abc73dac9ff34dec8d7a8dbeb7e92e3 # renovate tag=v1
         continue-on-error: true
       # - name: mage-vulcheck
       #   run: |
@@ -76,7 +76,7 @@ jobs:
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@f6e388ebf0efc915c6c5b165b019ee61a6746a38 # v2
+        uses: github/codeql-action/init@5b6282e01c62d02e720b81eb8a51204f527c3624 # v2
         with:
           languages: ${{ matrix.language }}
           # If you wish to specify custom queries, you can do so here or in a config file.
@@ -89,7 +89,7 @@ jobs:
       # Autobuild attempts to build any compiled languages  (C/C++, C#, Go, or Java).
       # If this step fails, then you should remove it and run the build manually (see below)
       - name: Autobuild
-        uses: github/codeql-action/autobuild@f6e388ebf0efc915c6c5b165b019ee61a6746a38 # v2
+        uses: github/codeql-action/autobuild@5b6282e01c62d02e720b81eb8a51204f527c3624 # v2
 
       # ℹ️ Command-line programs to run using the OS shell.
       # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
@@ -101,6 +101,6 @@ jobs:
       #   ./location_of_script_within_repo/buildscript.sh
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@f6e388ebf0efc915c6c5b165b019ee61a6746a38 # v2
+        uses: github/codeql-action/analyze@5b6282e01c62d02e720b81eb8a51204f527c3624 # v2
         with:
           category: '/language:${{matrix.language}}'

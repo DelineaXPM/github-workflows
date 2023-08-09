@@ -17,6 +17,6 @@ jobs:
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
 
       - name: Trunk Check
-        uses: trunk-io/trunk-action@e5f1a3f123a2440f9cd28e036495a1c1f2a20568 # v1
+        uses: trunk-io/trunk-action@883e222ef19201ad402ef73e58101ec8186d7d54 # v1
         with:
           post-annotations: true # only for fork PRs
