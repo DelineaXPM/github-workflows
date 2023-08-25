@@ -27,11 +27,11 @@ jobs:
           exempt-issue-labels: pinned, security, dependencies
           exempt-pr-labels: pinned, security, dependencies
           stale-pr-label: stale
-          close-issue-label: stale
-          close-pr-label: stale
+          close-issue-label: stale-closed
+          close-pr-label: stale-closed
           exempt-draft-pr: true
           delete-branch: false
           ignore-pr-updates: true # else renovate prs will never age out
-          labels-to-remove-when-unstale: stale
+          labels-to-remove-when-unstale: stale, stale-issue, stale-closed
           enable-statistics: true
           
