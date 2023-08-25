@@ -21,8 +21,10 @@ jobs:
         with:
           days-before-stale: 14
           days-before-close: 5
-          stale-issue-message: 🤖 This has been flagged as stale. If it is still relevant please post an update with context, otherwise this will shortly be closed. _You can always reopen a closed issue. This is not a permanent delete._
-          stale-pr-message: 🤖 This is being marked as stale due to no recent activity. Update to keep this open.
+          close-issue-message: 🤖 This has been flagged as stale. If it is still relevant please post an update with context.
+          close-pr-message: 🤖 This is being marked as stale due to no recent activity. Reopening will require project contributor to reopen.
+          # stale-issue-message: 🤖 This has been flagged as stale. If it is still relevant please post an update with context, otherwise this will shortly be closed. _You can always reopen a closed issue. This is not a permanent delete._
+          # stale-pr-message: 🤖 This is being marked as stale due to no recent activity. Update to keep this open.
           stale-issue-label: stale
           exempt-issue-labels: pinned, security, dependencies
           exempt-pr-labels: pinned, security, dependencies
