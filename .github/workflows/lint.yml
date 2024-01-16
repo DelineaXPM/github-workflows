@@ -8,14 +8,15 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.action }}
   cancel-in-progress: false
 permissions:
-  pull-requests: read
-  contents: read
-  checks: write
+  permissions: read-all
 jobs:
   lint:
     name: lint
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    permissions:
+      checks: write # For trunk to post annotations
+      contents: read # For repo checkout
     steps:
       - name: checkout
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
