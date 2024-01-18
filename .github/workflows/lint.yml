@@ -7,8 +7,10 @@ on:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.action }}
   cancel-in-progress: false
-permissions: read-all
-
+permissions:
+  pull-requests: read
+  contents: read
+  checks: write
 jobs:
   lint:
     name: lint
