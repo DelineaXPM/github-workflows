@@ -36,7 +36,7 @@ func Build() error {
 
 	releaserArgs := []string{
 		"build",
-		"--rm-dist",
+		"--clean",
 		"--snapshot",
 		"--single-target",
 	}
@@ -52,7 +52,7 @@ func BuildAll() error {
 	releaserArgs := []string{
 		"release",
 		"--snapshot",
-		"--rm-dist",
+		"--clean",
 		"--skip-publish",
 	}
 	pterm.Debug.Printfln("goreleaser: %+v", releaserArgs)
@@ -79,7 +79,7 @@ func Release() error {
 
 	releaserArgs := []string{
 		"release",
-		"--rm-dist",
+		"--clean",
 		"--skip-validate",
 		fmt.Sprintf("--release-notes=%s", cleanpath),
 	}
