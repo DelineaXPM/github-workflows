@@ -1,35 +1,16 @@
----
-# Assumptions:
-# - no project used in changie (no monorepo supported yet)
-# - no components used in changie.
-# - Dependencency type: ⬆️ Dependencies mapped in .changie.yaml
 name: changie-trigger-release
 on:
-  workflow_call:
-    inputs:
-      base:
-        type: string
-        required: false
-        default: 'main'
-        description: 'Target for the pull request'
-      head:
-        type: string
-        required: false
-        default: 'chore/new-release-from-dependencies'
-        description: 'Head branch for the PR'
-  workflow_dispatch:
-    inputs:
-      base:
-        required: false
-        default: 'main'
-        description: 'Target for the pull request'
-      head:
-        required: false
-        default: 'chore/new-release-from-dependencies'
-        description: 'Head branch for the PR'
+  workflow_call: {}
+  workflow_dispatch: {}
+
+env:
+  BASE_BRANCH: 'main'  # Default value for base branch
+  HEAD_BRANCH: 'chore/new-release-from-dependencies'  # Default value for head branch
+
 permissions:
   contents: write
   pull-requests: write
+
 jobs:
   dependency-release:
     runs-on: ubuntu-latest
@@ -46,19 +27,18 @@ jobs:
       - name: check-branch-existence
         id: check_branch
         run: |
-          echo "Checking if '${{ github.event.inputs.head }}' branch exists..."
-          if [ -z "$(git ls-remote --heads origin "${{ github.event.inputs.head }}")" ]; then
+          echo "Checking if '${{ env.HEAD_BRANCH }}' branch exists..."
+          if [ -z "$(git ls-remote --heads origin "${{ env.HEAD_BRANCH }}")" ]; then
               echo "Branch does not exist. Continuing workflow."
-              echo "BRANCH_ALREADY_EXISTS=false" >> $GITHUB_OUTPUT
+              echo "BRANCH_ALREADY_EXISTS=false" >> $GITHUB_ENV
           else
               echo "Branch exists. Skipping workflow."
-              echo "BRANCH_ALREADY_EXISTS=true" >> $GITHUB_OUTPUT
+              echo "BRANCH_ALREADY_EXISTS=true" >> $GITHUB_ENV
           fi
       - uses: aquaproj/aqua-installer@36dc5833b04eb63f06e3bb818aa6b7a6e6db99a9 # v2.1.2
         if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
         with:
           aqua_version: v2.10.1
-          # working_directory:
           aqua_opts: '--only-link' # lazy install so we can start this way
           policy_allow: true
         env:
@@ -71,17 +51,13 @@ jobs:
               local File="aqua.yaml"
               aqua generate -i "$1"
 
-              # Regex for partial match of the package name
               local PackageRegex="^${Package}@.*"
 
-              # Retrieve the tags for the matched package
               local tags=$(yq e ".packages[] | select(.name | test(\"$PackageRegex\")) | .tags[]" "$File")
 
-              # Check if 'release' is one of the tags
               if [[ $tags =~ "release" ]]; then
                 echo "The package $Package already contains 'release' in 'tags'."
               else
-                # Add 'release' to tags if it doesn't exist
                 yq e -i "(.packages[] | select(.name | test(\"$PackageRegex\")) | .tags) |= (. // [] | . + [\"release\"])" "$File"
                 echo "Updated 'tags' of $Package to include 'release'."
               fi
@@ -95,7 +71,7 @@ jobs:
         if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
         run: |
           git fetch
-          FILES_CHANGED=$(git diff --name-only "origin/${{ github.event.inputs.base }}" )
+          FILES_CHANGED=$(git diff --name-only "origin/${{ env.BASE_BRANCH }}" )
           if [[ $FILES_CHANGED == *"aqua.yaml"* ]] || [[ $FILES_CHANGED == *"aqua-checksum.json"* ]] || [[ $FILES_CHANGED == *".aqua/aqua-checksum.json"* ]]; then
             if [[ -f aqua-checksum.json ]] || [[ -f .aqua/aqua-checksum.json ]]; then
               echo "updating aqua-checksum.json as this repo has one, and changes were detected in aqua"
@@ -114,19 +90,15 @@ jobs:
           changie new --kind "⬆️ Dependencies" --body "Maintenance release due to updated dependencies."
           changie batch auto
           changie merge
-
       - name: prepare-files-for-commit
         if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
         run: |
           echo "Adding changelog files for commit..."
           git add .changes/* CHANGELOG*.md aqua.yaml
-      - name: create-new-branch
-        if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
-        run: |
-          echo "Creating new branch..."
-          git checkout -b ${{ github.event.inputs.head }}
+      - name: create-new
+          git checkout -b ${{ env.HEAD_BRANCH }}
           git commit -m "chore(deps): update changelogs"
-          git push -u origin ${{ github.event.inputs.head }}
+          git push -u origin ${{ env.HEAD_BRANCH }}
       - name: create-pull-request
         if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
         env:
@@ -135,8 +107,8 @@ jobs:
           echo "Creating pull request..."
           PR_OUTPUT=$(gh pr create --title "chore(deps): trigger a release based with changie updates" \
             --body "Approval will trigger update." \
-            --base ${{ github.event.inputs.base }} \
-            --head ${{ github.event.inputs.head }} \
+            --base ${{ env.BASE_BRANCH }} \
+            --head ${{ env.HEAD_BRANCH }} \
             --label dependencies)
           PR_URL=$(echo "$PR_OUTPUT" | awk '/^https:\/\/github\.com/{print $1}')
           PR_NUMBER=$(basename $PR_URL)
