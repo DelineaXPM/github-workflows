@@ -96,6 +96,7 @@ jobs:
           echo "Adding changelog files for commit..."
           git add .changes/* CHANGELOG*.md aqua.yaml
       - name: create-new
+        run: |
           git checkout -b ${{ env.HEAD_BRANCH }}
           git commit -m "chore(deps): update changelogs"
           git push -u origin ${{ env.HEAD_BRANCH }}
