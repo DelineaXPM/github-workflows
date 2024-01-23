@@ -35,6 +35,11 @@ jobs:
     runs-on: ubuntu-latest
     name: dependency-release
     steps:
+      - name: checkout-repo
+        if: steps.check_branch.outputs.conclusion == 'false'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Ensures a full checkout
       - name: check-branch-existence
         id: check_branch
         run: |
@@ -46,12 +51,6 @@ jobs:
             echo "Branch does not exist. Continuing workflow."
             echo "BRANCH_ALREADY_EXISTS=false >> $GITHUB_OUTPUT"
           fi
-
-      - name: checkout-repo
-        if: steps.check_branch.outputs.conclusion == 'false'
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 # Ensures a full checkout
       - uses: aquaproj/aqua-installer@36dc5833b04eb63f06e3bb818aa6b7a6e6db99a9 # v2.1.2
         with:
           aqua_version: v2.10.1
