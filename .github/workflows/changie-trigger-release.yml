@@ -127,15 +127,18 @@ jobs:
           git checkout -b ${{ github.event.inputs.head }}
           git commit -m "chore(deps): update changelogs"
           git push -u origin ${{ github.event.inputs.head }}
-
       - name: create-pull-request
         if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           echo "Creating pull request..."
-          gh pr create --title "chore(deps): trigger a release based with changie updates" \
+          PR_OUTPUT=$(gh pr create --title "chore(deps): trigger a release based with changie updates" \
             --body "Approval will trigger update." \
             --base ${{ github.event.inputs.base }} \
             --head ${{ github.event.inputs.head }} \
-            --label dependencies
+            --label dependencies)
+          PR_URL=$(echo "$PR_OUTPUT" | awk '/^https:\/\/github\.com/{print $1}')
+          PR_NUMBER=$(basename $PR_URL)
+          gh pr merge $PR_NUMBER --auto --delete-branch --squash
+          echo "configured autocomplete settings"
