@@ -1,5 +1,0 @@
-kind: "\U0001F389 Feature"
-body:
-  New template to trigger a changie based release from just CI. Will create PR
-  for release to be reviewed and approved.
-time: 2024-01-23T15:13:47.310227+01:00
