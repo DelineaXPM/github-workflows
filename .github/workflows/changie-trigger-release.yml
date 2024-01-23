@@ -36,8 +36,7 @@ jobs:
     name: dependency-release
     steps:
       - name: checkout-repo
-        if: steps.check_branch.outputs.conclusion == 'false'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Ensures a full checkout
       - name: check-branch-existence
