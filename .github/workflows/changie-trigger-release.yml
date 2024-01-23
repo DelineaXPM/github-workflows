@@ -43,7 +43,7 @@ jobs:
         id: check_branch
         run: |
           echo "Checking if '${{ github.event.inputs.head }}' branch exists..."
-          if git ls-remote --heads origin ${{ github.event.inputs.head }}; then
+          if git ls-remote --heads origin "${{ github.event.inputs.head }}"; then
             echo "Branch exists. Skipping workflow."
             echo "BRANCH_ALREADY_EXISTS=true >> $GITHUB_OUTPUT"
           else
@@ -51,6 +51,7 @@ jobs:
             echo "BRANCH_ALREADY_EXISTS=false >> $GITHUB_OUTPUT"
           fi
       - uses: aquaproj/aqua-installer@36dc5833b04eb63f06e3bb818aa6b7a6e6db99a9 # v2.1.2
+        if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
         with:
           aqua_version: v2.10.1
           # working_directory:
@@ -59,6 +60,7 @@ jobs:
         env:
           AQUA_LOG_LEVEL: debug
       - name: ensure-requirements-are-in-aqua-config
+        if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
         run: |
           update_tags_for_package() {
               local Package=$1
@@ -86,6 +88,7 @@ jobs:
           done
           aqua install --tags release
       - name: update-aqua-checksum
+        if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
         run: |
           git fetch
           FILES_CHANGED=$(git diff --name-only "origin/${{ github.event.inputs.base }}" )
@@ -101,7 +104,7 @@ jobs:
             echo "No changes in aqua.yaml or aqua-checksum.json files. Skipping update."
           fi
       - name: create-changelog-entry
-        if: steps.check_branch.outputs.conclusion == 'false'
+        if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
         run: |
           echo "Creating changelog entry..."
           changie new --kind "⬆️ Dependencies" --body "Maintenance release due to updated dependencies."
@@ -109,13 +112,13 @@ jobs:
           changie merge
 
       - name: prepare-files-for-commit
-        if: steps.check_branch.outputs.conclusion == 'false'
+        if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
         run: |
           echo "Adding changelog files for commit..."
           git add .changes/* CHANGELOG*.md aqua.yaml
 
       - name: create-new-branch
-        if: steps.check_branch.outputs.conclusion == 'false'
+        if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
         run: |
           echo "Creating new branch..."
           git checkout -b ${{ github.event.inputs.head }}
@@ -123,7 +126,7 @@ jobs:
           git push -u origin ${{ github.event.inputs.head }}
 
       - name: create-pull-request
-        if: steps.check_branch.outputs.conclusion == 'false'
+        if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
         run: |
           echo "Creating pull request..."
           gh pr create --title "chore(deps): trigger a release based with changie updates" \
