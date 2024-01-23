@@ -35,6 +35,7 @@ jobs:
             ci
             build
             revert
+            security
           requireScope: false
           subjectPattern: ^(?![A-Z]).+$
           subjectPatternError: |
