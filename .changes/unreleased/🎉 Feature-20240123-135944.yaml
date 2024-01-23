@@ -1,6 +1,0 @@
-kind: "\U0001F389 Feature"
-body: |-
-  New template to simplify maintenance by workflow dispatch adding required changelog entries to create a pull request that bumps the version and runs changie commands to generate a new release.
-
-  This is done to help the development effort to bump a release based on dependency updates without having to clone and run cli tools locally.
-time: 2024-01-23T13:59:44.360922+01:00
