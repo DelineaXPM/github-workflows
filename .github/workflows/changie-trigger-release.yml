@@ -28,7 +28,7 @@ jobs:
         id: check_branch
         run: |
           echo "Checking if '${{ env.HEAD_BRANCH }}' branch exists..."
-          if [ -z "$(git ls-remote --heads origin "${{ env.HEAD_BRANCH }}")" ]; then
+          if [[ -z "$(git ls-remote --heads origin "${{ env.HEAD_BRANCH }}")" ]]; then
               echo "Branch does not exist. Continuing workflow."
               echo "BRANCH_ALREADY_EXISTS=false" >> "$GITHUB_ENV"
           else
