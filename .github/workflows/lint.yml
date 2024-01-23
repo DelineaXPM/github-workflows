@@ -39,6 +39,6 @@ jobs:
           AQUA_LOG_LEVEL: debug
           AQUA_OPTS: ''
       - name: trunk-check
-        uses: trunk-io/trunk-action@35fcebf33a41a29ac3c15098b39451d04ed87e93 # v1.1.2
+        uses: trunk-io/trunk-action@34242ec4eb8cf594887600f1f9b889e7c630ec18 # v1.1.9
         with:
           arguments: --github-annotate-new-only=true
