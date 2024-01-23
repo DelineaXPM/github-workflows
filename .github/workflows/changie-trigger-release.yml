@@ -43,12 +43,12 @@ jobs:
         id: check_branch
         run: |
           echo "Checking if '${{ github.event.inputs.head }}' branch exists..."
-          if git ls-remote --heads origin "${{ github.event.inputs.head }}"; then
-            echo "Branch exists. Skipping workflow."
-            echo "BRANCH_ALREADY_EXISTS=true >> $GITHUB_OUTPUT"
+          if [ -z "$(git ls-remote --heads origin "${{ github.event.inputs.head }}")" ]; then
+              echo "Branch does not exist. Continuing workflow."
+              echo "BRANCH_ALREADY_EXISTS=false" >> $GITHUB_OUTPUT
           else
-            echo "Branch does not exist. Continuing workflow."
-            echo "BRANCH_ALREADY_EXISTS=false >> $GITHUB_OUTPUT"
+              echo "Branch exists. Skipping workflow."
+              echo "BRANCH_ALREADY_EXISTS=true" >> $GITHUB_OUTPUT
           fi
       - uses: aquaproj/aqua-installer@36dc5833b04eb63f06e3bb818aa6b7a6e6db99a9 # v2.1.2
         if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
