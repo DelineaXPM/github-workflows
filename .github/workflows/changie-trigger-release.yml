@@ -136,5 +136,4 @@ jobs:
             --body "Approval will trigger update." \
             --base ${{ github.event.inputs.base }} \
             --head ${{ github.event.inputs.head }} \
-            --label dependencies \
-            --delete-branch-on-merge
+            --label dependencies
