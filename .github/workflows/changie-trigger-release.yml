@@ -137,5 +137,4 @@ jobs:
             --base ${{ github.event.inputs.base }} \
             --head ${{ github.event.inputs.head }} \
             --label dependencies \
-            --squash \
             --delete-branch-on-merge
