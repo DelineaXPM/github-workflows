@@ -4,9 +4,9 @@ on:
   pull_request:
   workflow_dispatch:
   workflow_call:
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.action }}
-  cancel-in-progress: false
+# concurrency:
+#   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.action }}
+#   cancel-in-progress: false
 permissions:
   pull-requests: read
   contents: read
