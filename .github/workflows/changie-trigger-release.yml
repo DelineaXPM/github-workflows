@@ -130,6 +130,8 @@ jobs:
 
       - name: create-pull-request
         if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           echo "Creating pull request..."
           gh pr create --title "chore(deps): trigger a release based with changie updates" \
