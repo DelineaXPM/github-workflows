@@ -100,6 +100,8 @@ jobs:
         run: |
           echo "Adding changelog files for commit..."
           git add '.changes/*' 'CHANGELOG*.md' '*aqua.yaml'
+          git add .
+          echo "this is added because unknown files have their version replaced and we should make sure these get included in the PR."
       - name: create-new
         if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
         run: |
