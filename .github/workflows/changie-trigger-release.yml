@@ -109,7 +109,7 @@ jobs:
           echo "this is added because unknown files have their version replaced and we should make sure these get included in the PR."
       - name: trunk-fmt
         run: |
-          trunk fmt --ci
+          trunk fmt
       - name: create-new
         if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
         run: |
