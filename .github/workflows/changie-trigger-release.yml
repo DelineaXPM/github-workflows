@@ -51,10 +51,11 @@ jobs:
         if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
         run: |
           update_tags_for_package() {
-              local Package=$1
+              local Package="$1"
               local_file="$(aqua info | jq 'first(.config_files[].path)' | sed -e "s/(USER)/$(whoami)/g")"
-              echo "👉 local_file for aqua detected as: $(local_file)"
-              aqua generate -i "$1"
+              echo "👉 aqua info output: $(aqua info)"
+              echo "👉 local_file for aqua detected as: ${local_file}"
+              aqua generate -i "${Package}"
 
               local PackageRegex="^${Package}@.*"
 
