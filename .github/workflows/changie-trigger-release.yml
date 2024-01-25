@@ -99,7 +99,7 @@ jobs:
         if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
         run: |
           echo "Adding changelog files for commit..."
-          git add .changes/* CHANGELOG*.md aqua.yaml
+          git add '.changes/*' 'CHANGELOG*.md' '*aqua.yaml'
       - name: create-new
         if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
         run: |
