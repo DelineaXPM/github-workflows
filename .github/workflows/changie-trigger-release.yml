@@ -52,7 +52,9 @@ jobs:
         run: |
           update_tags_for_package() {
               local Package="$1"
-              local_file="$(aqua info | jq 'first(.config_files[].path)' | sed -e "s/(USER)/$(whoami)/g")"
+              # doesn't seem to work when I provided qualified path, commenting out for reference/improvement later: local_file="$(aqua info | jq 'first(.config_files[].path)' | sed -e "s/(USER)/$(whoami)/g")"
+              local_file=$(find . -name "aqua.yaml" -print -quit)
+              echo "Path to the aqua.yaml file: ${local_file}"
               echo "👉 aqua info output: $(aqua info)"
               echo "👉 local_file for aqua detected as: ${local_file}"
               aqua generate -i "${Package}"
