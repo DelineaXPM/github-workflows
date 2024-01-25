@@ -4,8 +4,8 @@ on:
   workflow_dispatch: {}
 
 env:
-  BASE_BRANCH: 'main'  # Default value for base branch
-  HEAD_BRANCH: 'chore/new-release-from-dependencies'  # Default value for head branch
+  BASE_BRANCH: 'main' # Default value for base branch
+  HEAD_BRANCH: 'chore/new-release-from-dependencies' # Default value for head branch
 
 permissions:
   contents: write
@@ -43,12 +43,16 @@ jobs:
           policy_allow: true
         env:
           AQUA_LOG_LEVEL: debug
+
+      - name: install-jq # install before aqua since aqua requirements will need jq already available
+        uses: dcarbone/install-jq-action@8867ddb4788346d7c22b72ea2e2ffe4d514c7bcb # v2.1.0
+
       - name: ensure-requirements-are-in-aqua-config
         if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
         run: |
           update_tags_for_package() {
               local Package=$1
-              local File="aqua.yaml"
+              local File=$(aqua info | jq 'first(.config_files[].path)')
               aqua generate -i "$1"
 
               local PackageRegex="^${Package}@.*"
