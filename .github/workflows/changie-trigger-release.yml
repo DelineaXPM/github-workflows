@@ -52,18 +52,18 @@ jobs:
         run: |
           update_tags_for_package() {
               local Package=$1
-              local=$(aqua info | jq 'first(.config_files[].path)'  | sed -e "s/(USER)/$(whoami)/g")
-
+              local_file="$(aqua info | jq 'first(.config_files[].path)' | sed -e "s/(USER)/$(whoami)/g")"
+              echo "👉 local_file for aqua detected as: $(local_file)"
               aqua generate -i "$1"
 
               local PackageRegex="^${Package}@.*"
 
-              local tags=$(yq e ".packages[] | select(.name | test(\"$PackageRegex\")) | .tags[]" "$File")
+              local tags=$(yq e ".packages[] | select(.name | test(\"$PackageRegex\")) | .tags[]" "$local_file")
 
               if [[ $tags =~ "release" ]]; then
                 echo "The package $Package already contains 'release' in 'tags'."
               else
-                yq e -i "(.packages[] | select(.name | test(\"$PackageRegex\")) | .tags) |= (. // [] | . + [\"release\"])" "$File"
+                yq e -i "(.packages[] | select(.name | test(\"$PackageRegex\")) | .tags) |= (. // [] | . + [\"release\"])" "$local_file"
                 echo "Updated 'tags' of $Package to include 'release'."
               fi
           }
