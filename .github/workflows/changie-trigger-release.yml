@@ -44,9 +44,11 @@ jobs:
         env:
           AQUA_LOG_LEVEL: debug
 
-      - name: install-jq # install before aqua since aqua requirements will need jq already available
-        uses: dcarbone/install-jq-action@8867ddb4788346d7c22b72ea2e2ffe4d514c7bcb # v2.1.0
-
+      # - name: install-jq # install before aqua since aqua requirements will need jq already available
+      #   uses: dcarbone/install-jq-action@8867ddb4788346d7c22b72ea2e2ffe4d514c7bcb # v2.1.0
+      - name: install-trunk
+        run: |
+          curl https://get.trunk.io -fsSL | bash -s -- -y
       - name: ensure-requirements-are-in-aqua-config
         if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
         run: |
@@ -105,6 +107,9 @@ jobs:
           git add '.changes/*' 'CHANGELOG*.md' '*aqua.yaml'
           git add .
           echo "this is added because unknown files have their version replaced and we should make sure these get included in the PR."
+      - name: trunk-fmt
+        run: |
+          trunk fmt --ci
       - name: create-new
         if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
         run: |
