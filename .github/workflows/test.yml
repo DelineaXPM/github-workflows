@@ -2,9 +2,8 @@
 name: test
 on:
   pull_request:
-  push:
-    tags:
-      - v*
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       gotestflags:
