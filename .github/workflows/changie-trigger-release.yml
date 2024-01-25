@@ -52,7 +52,8 @@ jobs:
         run: |
           update_tags_for_package() {
               local Package=$1
-              local File=$(aqua info | jq 'first(.config_files[].path)')
+              local=$(aqua info | jq 'first(.config_files[].path)'  | sed -e "s/(USER)/$(whoami)/g")
+
               aqua generate -i "$1"
 
               local PackageRegex="^${Package}@.*"
