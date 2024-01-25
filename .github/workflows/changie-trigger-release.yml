@@ -95,6 +95,7 @@ jobs:
           fi
       - name: create-changelog-entry
         if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
+        timeout-minutes: 1 # in case missing kind, config, or asking for manual input (avoid), let's catch and fail quickly
         run: |
           echo "Creating changelog entry..."
           changie new --kind "⬆️ Dependencies" --body "Maintenance release due to updated dependencies."
