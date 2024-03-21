@@ -23,7 +23,7 @@ jobs:
       contents: read # For repo checkout
     steps:
       - name: checkout
-        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
       - name: set-aqua-policy-if-file-exists
         run: |
           if [ -f aqua-policy.yaml ]; then
@@ -31,7 +31,7 @@ jobs:
           else
             echo "👉 No aqua-policy.yaml file found, skipping setting AQUA_POLICY_CONFIG"
           fi
-      - uses: aquaproj/aqua-installer@36dc5833b04eb63f06e3bb818aa6b7a6e6db99a9 # v2.1.2
+      - uses: aquaproj/aqua-installer@fd2089d1f56724d6456f24d58605e6964deae124 # v2.3.2
         continue-on-error: true
         with:
           aqua_version: v2.10.1
@@ -41,6 +41,6 @@ jobs:
           AQUA_LOG_LEVEL: debug
           AQUA_OPTS: ''
       - name: trunk-check
-        uses: trunk-io/trunk-action@34242ec4eb8cf594887600f1f9b889e7c630ec18 # v1.1.9
+        uses: trunk-io/trunk-action@718b71fb3e4d83f6734f0c372d92ee7d4c9976d7 # v1.1.11
         with:
           arguments: --github-annotate-new-only=true
