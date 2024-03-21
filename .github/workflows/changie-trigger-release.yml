@@ -17,7 +17,7 @@ jobs:
     name: dependency-release
     steps:
       - name: checkout-repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
         with:
           fetch-depth: 0 # Ensures a full checkout
       - name: configure-default-git-committer
@@ -35,7 +35,7 @@ jobs:
               echo "Branch exists. Skipping workflow."
               echo "BRANCH_ALREADY_EXISTS=true" >> "$GITHUB_OUTPUT"
           fi
-      - uses: aquaproj/aqua-installer@36dc5833b04eb63f06e3bb818aa6b7a6e6db99a9 # v2.1.2
+      - uses: aquaproj/aqua-installer@fd2089d1f56724d6456f24d58605e6964deae124 # v2.3.2
         if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
         with:
           aqua_version: v2.10.1
