@@ -5,7 +5,7 @@ registries:
   - type: standard
     ref: v4.22.0 # renovate: depName=aquaproj/aqua-registry
 packages:
-  - name: miniscruff/changie@v1.12.0
+  - name: miniscruff/changie@v1.19.1
     tags:
       - release
   - name: golang/go@go1.20.2
@@ -24,6 +24,6 @@ packages:
   - name: mikefarah/yq@v4.40.5
     tags:
       - release
-  - name: miniscruff/changie@v1.18.0
+  - name: miniscruff/changie@v1.19.1
     tags:
       - release
