@@ -1,0 +1,5 @@
+kind: "\U0001F528 Refactor"
+body:
+  If new format of kind is used with keys, then use this, else use the prior format,
+  to avoid breaking repos with older changie configs.
+time: 2024-07-18T17:13:54.126729-05:00
