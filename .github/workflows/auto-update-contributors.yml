@@ -36,6 +36,7 @@ jobs:
         uses: akhilmhdh/contributors-readme-action@1ff4c56187458b34cd602aee93e897344ce34bfc # v2.3.10
         with:
           pr_title_on_protected: 'docs(contributor): contributors readme action update'
+          commit_message: 'docs(contributor): contributors readme action update'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           use_username: true
