@@ -17,15 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Get PR title from YAML
-        id: get_pr_title
-        run: |
-          pr_title=$(docker run --rm -v "${PWD}":/workdir mikefarah/yq e '.jobs."contrib-readme-job".steps[] | select(.name == "Contribute List") | .with.pr_title_on_protected' .github/workflows/auto-update-contributors.yml)
-          echo "pr_title=$pr_title" >> $GITHUB_ENV
-
       - name: Check for existing open contributors pull request
         id: check_pr
         run: |
+          pr_title="docs(contributor): contributors readme action update"
           existing_pr=$(gh pr list --state open --search "$pr_title" --json title --jq '.[].title')
           if [[ "$existing_pr" == "$pr_title" ]]; then
             echo "Contributors pull request already exists. Exiting."
