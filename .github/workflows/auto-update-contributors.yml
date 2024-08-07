@@ -26,7 +26,7 @@ jobs:
           pr_title="docs(contributor): contributors readme action update"
           existing_pr=$(gh pr list --state open --search "$pr_title" --json title --jq '.[].title')
           echo "::debug::List of open pull requests: $(gh pr list --state open --json title --jq '.[].title')"
-          if [[ "$existing_pr" == "$pr_title" ]]; then
+          if [[ -n "$existing_pr" ]]; then
             echo "Contributors pull request already exists. Exiting."
             echo "::warning::bypassed per open pull request already exists"
             exit 0
