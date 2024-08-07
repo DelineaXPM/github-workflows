@@ -38,7 +38,7 @@ jobs:
       - uses: aquaproj/aqua-installer@fd2089d1f56724d6456f24d58605e6964deae124 # v2.3.2
         if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false'
         with:
-          aqua_version: v2.10.1
+          aqua_version: v2.30.0
           aqua_opts: '--only-link' # lazy install so we can start this way
           policy_allow: true
         env:
