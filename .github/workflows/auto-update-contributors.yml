@@ -17,8 +17,26 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check for existing open contributors pull request
+        id: check_pr
+        run: |
+          pr_title="docs(contributor): contributors readme action update"
+          existing_pr=$(gh pr list --state open --search "$pr_title" --json title --jq '.[].title')
+          if [[ "$existing_pr" == "$pr_title" ]]; then
+            echo "Contributors pull request already exists. Exiting."
+            exit 0
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Contribute List
         uses: akhilmhdh/contributors-readme-action@1ff4c56187458b34cd602aee93e897344ce34bfc # v2.3.10
+        with:
+          pr_title_on_protected: 'docs(contributor): contributors readme action update'
+          commit_message: 'docs(contributor): contributors readme action update'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           use_username: true
