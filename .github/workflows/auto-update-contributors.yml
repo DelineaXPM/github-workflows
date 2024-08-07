@@ -29,12 +29,16 @@ jobs:
           if [[ -n "$existing_pr" ]]; then
             echo "Contributors pull request already exists. Exiting."
             echo "::warning::bypassed per open pull request already exists"
+            echo "OpenContributorRequestAlreadyExists=true" >> $GITHUB_ENV
             exit 0
+          else
+            echo "OpenContributorRequestAlreadyExists=false" >> $GITHUB_ENV
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Contribute List
+        if: env.OpenContributorRequestAlreadyExists == 'false'
         uses: akhilmhdh/contributors-readme-action@1ff4c56187458b34cd602aee93e897344ce34bfc # v2.3.10
         with:
           pr_title_on_protected: 'docs(contributor): contributors readme action update'
