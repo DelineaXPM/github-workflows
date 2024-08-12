@@ -44,3 +44,40 @@ jobs:
         uses: trunk-io/trunk-action@86b68ffae610a05105e90b1f52ad8c549ef482c2 # v1.1.16
         with:
           arguments: --github-annotate-new-only=true
+
+  changie-validation:
+    name: changie-validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for .changes directory
+        id: check_changes_dir
+        run: |
+          if [ -d ".changes" ]; then
+            echo "changes_dir_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "changes_dir_exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check for labels
+        id: check_labels
+        run: |
+          echo "no_changie_required=false" >> $GITHUB_OUTPUT
+          echo "dependencies=false" >> $GITHUB_OUTPUT
+          for label in $(gh pr view ${{ github.event.pull_request.number }} --json labels --jq '.labels[].name'); do
+            if [ "$label" == "no-changie-required" ]; then
+              echo "no_changie_required=true" >> $GITHUB_OUTPUT
+            elif [ "$label" == "dependencies" ]; then
+              echo "dependencies=true" >> $GITHUB_OUTPUT
+            fi
+          done
+
+      - name: Validate changie entry
+        if: steps.check_changes_dir.outputs.changes_dir_exists == 'true' && steps.check_labels.outputs.no_changie_required == 'false' && steps.check_labels.outputs.dependencies == 'false'
+        run: |
+          if [ -z "$(ls -A .changes/unreleased)" ]; then
+            echo "No changie entry found in .changes/unreleased"
+            gh pr comment ${{ github.event.pull_request.number }} --body "A changie entry is required in .changes/unreleased" --edit-last
+            exit 1
+          else
+            echo "Changie entry found"
+          fi
