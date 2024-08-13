@@ -114,7 +114,7 @@ jobs:
             echo "No changie entry found in .changes"
             comment="❌ A changie entry is required in .changes/"
               echo "adding review comment saying required, since not seeing prior comment before"
-              gh pr review ${{ github.event.pull_request.number }} --request-changes
+              gh pr review ${{ github.event.pull_request.number }} --request-changes --body "$comment"
               gh pr comment ${{ github.event.pull_request.number }} --body "$comment" --edit-last || gh pr comment ${{ github.event.pull_request.number }} --body "$comment"
           fi
 
