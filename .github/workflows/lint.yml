@@ -56,8 +56,9 @@ jobs:
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
-        fetch-depth: 0
-        ref: ${{ github.head_ref }}
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
 
       - name: Set up default branch name
         id: default_branch
