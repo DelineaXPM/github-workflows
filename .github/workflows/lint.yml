@@ -89,7 +89,7 @@ jobs:
             comment="✅ showing changie entry was found"
           fi
           if [[ -n "$comment" ]]; then
-            gh pr comment ${{ github.event.pull_request.number }} --body "$comment" --edit-last
+            gh pr comment ${{ github.event.pull_request.number }} --body "$comment" --edit-last || gh pr comment ${{ github.event.pull_request.number }} --body "$comment"
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
