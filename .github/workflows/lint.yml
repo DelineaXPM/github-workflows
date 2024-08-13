@@ -117,7 +117,7 @@ jobs:
           else
             echo "No changie entry found in .changes"
             comment="❌ A changie entry is required in .changes/"
-            if ! echo "$existing_comments" | grep -q "❌ A changie entry is required in .changes/unreleased"; then
+            if ! echo "$existing_comments" | grep -q "❌ A changie entry is required in .changes/"; then
               echo "adding review comment saying required, since not seeing prior comment before"
               gh pr review ${{ github.event.pull_request.number }} --request-changes --body "$comment"
             fi
