@@ -105,7 +105,7 @@ jobs:
           # Fetch existing comments
           existing_comments=$(gh pr view ${{ github.event.pull_request.number }} --json comments --jq '.comments[].body')
 
-          changes=$(git diff --name-only origin/${{ env.DEFAULT_BRANCH }}...HEAD -- .changes/)
+          changes=$(git diff --name-only --diff-filter=A origin/${{ env.DEFAULT_BRANCH }}...HEAD -- .changes/)
 
           if [[ -n "$changes" ]]; then
             echo "Changie entry found"
