@@ -26,7 +26,7 @@ jobs:
         uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
       - name: set-aqua-policy-if-file-exists
         run: |
-          if [ -f aqua-policy.yaml ]; then
+          if [[ -f aqua-policy.yaml ]]; then
             echo "AQUA_POLICY_CONFIG=${GITHUB_WORKSPACE}/aqua-policy.yaml:${AQUA_POLICY_CONFIG}" >> $GITHUB_ENV
           else
             echo "👉 No aqua-policy.yaml file found, skipping setting AQUA_POLICY_CONFIG"
@@ -44,3 +44,58 @@ jobs:
         uses: trunk-io/trunk-action@86b68ffae610a05105e90b1f52ad8c549ef482c2 # v1.1.16
         with:
           arguments: --github-annotate-new-only=true
+
+  changie-validation:
+    name: changie-validation
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+      checks: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+      - name: Check for .changes directory
+        id: check_changes_dir
+        run: |
+          if [[ -d ".changes" ]]; then
+            echo "changes_dir_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "changes_dir_exists=false" >> $GITHUB_OUTPUT
+            echo "⏩ no changie entry required on this"
+          fi
+
+      - name: Check for labels
+        id: check_labels
+        run: |
+          echo "no_changie_required=false" >> $GITHUB_OUTPUT
+          echo "dependencies=false" >> $GITHUB_OUTPUT
+          for label in $(gh pr view ${{ github.event.pull_request.number }} --json labels --jq '.labels[].name'); do
+            if [[ "$label" == "no-changie-required" ]]; then
+              echo "no_changie_required=true" >> $GITHUB_OUTPUT
+              echo "❎ bypass on changie noted due to label"
+            elif [[ "$label" == "dependencies" ]]; then
+              echo "dependencies=true" >> $GITHUB_OUTPUT
+            fi
+          done
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Validate changie entry
+        id: validate_changie_entry
+        if: steps.check_changes_dir.outputs.changes_dir_exists == 'true' && steps.check_labels.outputs.no_changie_required == 'false' && steps.check_labels.outputs.dependencies == 'false'
+        run: |
+          if [[ -z "$(git diff --name-only --diff-filter=A .changes/unreleased)" ]]; then
+            echo "No changie entry found in .changes/unreleased"
+            comment="❌ A changie entry is required in .changes/unreleased"
+            gh pr review ${{ github.event.pull_request.number }} --request-changes --body "$comment"
+          else
+            echo "Changie entry found"
+            comment="✅ changie entry was found"
+            gh pr review ${{ github.event.pull_request.number }} --comment --body "$comment"
+          fi
+          if [[ -n "$comment" ]]; then
+            gh pr comment ${{ github.event.pull_request.number }} --body "$comment" --edit-last || gh pr comment ${{ github.event.pull_request.number }} --body "$comment"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

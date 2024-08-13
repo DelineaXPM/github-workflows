@@ -37,3 +37,8 @@ These are subject to breaking changes and managed by the DevOps Secrets Vault te
 
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
+
+## Lint Action
+
+The lint action now performs a second job of validating that a changie entry was added. This ensures that all pull requests, except those with specific labels, include a changie entry in the `.changes/unreleased` directory.
+
