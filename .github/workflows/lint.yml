@@ -55,7 +55,7 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
-      - uses: t@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+      - uses: checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
         fetch-depth: 0
         ref: ${{ github.head_ref }}
 
@@ -76,6 +76,7 @@ jobs:
           fi
   
       - name: Fetch default branch
+        id: fetch_branches
         run: |
           git fetch origin ${{ env.DEFAULT_BRANCH }}
           git fetch origin ${{ github.head_ref }}
