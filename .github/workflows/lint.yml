@@ -107,7 +107,8 @@ jobs:
             echo "Changie entry found"
             comment="✅ changie entry was found"
             if ! gh pr view ${{ github.event.pull_request.number }} --comments | grep -q "✅ changie entry was found"; then
-              gh pr review ${{ github.event.pull_request.number }} --comment --body "$comment"
+              gh pr review ${{ github.event.pull_request.number }} --approve
+            gh pr review ${{ github.event.pull_request.number }} --comment --body "$comment"
             fi
           else
             echo "No changie entry found in .changes"
@@ -117,7 +118,8 @@ jobs:
             fi
           fi
           if [[ -n "$comment" ]]; then
-            gh pr review ${{ github.event.pull_request.number }} --comment --body "$comment" --approve
+            gh pr review ${{ github.event.pull_request.number }} --approve
+            gh pr review ${{ github.event.pull_request.number }} --comment --body "$comment"
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
