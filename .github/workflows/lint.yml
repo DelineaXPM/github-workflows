@@ -85,7 +85,7 @@ jobs:
         id: validate_changie_entry
         if: steps.check_changes_dir.outputs.changes_dir_exists == 'true' && steps.check_labels.outputs.no_changie_required == 'false' && steps.check_labels.outputs.dependencies == 'false'
         run: |
-          if [[ -z "$(ls -A .changes/unreleased)" ]]; then
+          if [[ -z "$(git diff --name-only --diff-filter=A .changes/unreleased)" ]]; then
             echo "No changie entry found in .changes/unreleased"
             comment="❌ A changie entry is required in .changes/unreleased"
           else
@@ -93,7 +93,7 @@ jobs:
             comment="✅ changie entry was found"
           fi
           if [[ -n "$comment" ]]; then
-             gh pr comment ${{ github.event.pull_request.number }} --body "$comment" --edit-last || gh pr comment ${{ github.event.pull_request.number }} --body "$comment" --edit-last || gh pr comment ${{ github.event.pull_request.number }} --body "$comment" --edit-last || gh pr comment ${{ github.event.pull_request.number }} --body "$comment"
+             gh pr comment ${{ github.event.pull_request.number }} --body "$comment" --edit-last || gh pr comment ${{ github.event.pull_request.number }} --body "$comment"
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
