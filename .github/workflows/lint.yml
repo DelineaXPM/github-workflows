@@ -112,14 +112,15 @@ jobs:
             comment="✅ changie entry was found"
             if ! echo "$existing_comments" | grep -q "✅ changie entry was found"; then
               gh pr review ${{ github.event.pull_request.number }} --approve
-              gh pr comment ${{ github.event.pull_request.number }} --body "$comment"
+              gh pr comment ${{ github.event.pull_request.number }} --body "$comment" --edit-last || gh pr comment ${{ github.event.pull_request.number }} --body "$comment"
             fi
           else
             echo "No changie entry found in .changes"
             comment="❌ A changie entry is required in .changes/"
             if ! echo "$existing_comments" | grep -q "❌ A changie entry is required in .changes/"; then
               echo "adding review comment saying required, since not seeing prior comment before"
-              gh pr review ${{ github.event.pull_request.number }} --request-changes --body "$comment"
+              gh pr review ${{ github.event.pull_request.number }} --request-changes
+              gh pr comment ${{ github.event.pull_request.number }} --body "$comment" --edit-last || gh pr comment ${{ github.event.pull_request.number }} --body "$comment"
             fi
           fi
 
@@ -129,7 +130,7 @@ jobs:
               echo "Review comment already posted"
             else
               echo "adding review comment since not seeing prior comment before"
-              gh pr comment ${{ github.event.pull_request.number }} --body "$comment"
+              gh pr comment ${{ github.event.pull_request.number }} --body "$comment" --edit-last || gh pr comment ${{ github.event.pull_request.number }} --body "$comment"
             fi
           fi
         env:
