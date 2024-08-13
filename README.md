@@ -38,6 +38,7 @@ These are subject to breaking changes and managed by the DevOps Secrets Vault te
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
 
-## New changie validation job
+## Lint Action
 
-The lint action now performs a second job of validating that a changie entry was added. This new job, `changie-validation`, checks for changie entries in the `.changes/unreleased` directory. The job will skip if the `.changes` directory does not exist or if the labels `no-changie-required` or `dependencies` are set. The deprecated `set-output` command has been replaced with `echo "{name}={value}" >> $GITHUB_OUTPUT` in the `changie-validation` job.
+The lint action now performs a second job of validating that a changie entry was added. This ensures that all pull requests, except those with specific labels, include a changie entry in the `.changes/unreleased` directory.
+
