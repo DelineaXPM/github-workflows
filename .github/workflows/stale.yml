@@ -36,4 +36,3 @@ jobs:
           ignore-pr-updates: true # else renovate prs will never age out
           labels-to-remove-when-unstale: stale, stale-issue, stale-closed
           enable-statistics: true
-          
