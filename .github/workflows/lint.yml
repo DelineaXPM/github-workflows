@@ -76,7 +76,9 @@ jobs:
           fi
   
       - name: Fetch default branch
-        run: git fetch origin ${{ env.DEFAULT_BRANCH }}
+        run: |
+          git fetch origin ${{ env.DEFAULT_BRANCH }}
+          git fetch origin ${{ github.head_ref }}
 
       - name: Check for labels
         id: check_labels
