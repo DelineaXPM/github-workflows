@@ -75,7 +75,7 @@ jobs:
             echo "changes_dir_exists=false" >> $GITHUB_OUTPUT
             echo "⏩ no changie entry required on this"
           fi
-  
+
       - name: Fetch default branch
         id: fetch_branches
         run: |
