@@ -26,7 +26,7 @@ jobs:
         uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
       - name: set-aqua-policy-if-file-exists
         run: |
-          if [ -f aqua-policy.yaml ]; then
+          if [[ -f aqua-policy.yaml ]]; then
             echo "AQUA_POLICY_CONFIG=${GITHUB_WORKSPACE}/aqua-policy.yaml:${AQUA_POLICY_CONFIG}" >> $GITHUB_ENV
           else
             echo "👉 No aqua-policy.yaml file found, skipping setting AQUA_POLICY_CONFIG"
@@ -55,8 +55,9 @@ jobs:
       - name: Check for .changes directory
         id: check_changes_dir
         run: |
-          if [ -d ".changes" ]; then
+          if [[ -d ".changes" ]]; then
             echo "changes_dir_exists=true" >> $GITHUB_OUTPUT
+            echo "⏩ no changie entry required on this"
           else
             echo "changes_dir_exists=false" >> $GITHUB_OUTPUT
           fi
@@ -67,9 +68,10 @@ jobs:
           echo "no_changie_required=false" >> $GITHUB_OUTPUT
           echo "dependencies=false" >> $GITHUB_OUTPUT
           for label in $(gh pr view ${{ github.event.pull_request.number }} --json labels --jq '.labels[].name'); do
-            if [ "$label" == "no-changie-required" ]; then
+            if [[ "$label" == "no-changie-required" ]]; then
               echo "no_changie_required=true" >> $GITHUB_OUTPUT
-            elif [ "$label" == "dependencies" ]; then
+              echo "❎ bypass on changie noted due to label"
+            elif [[ "$label" == "dependencies" ]]; then
               echo "dependencies=true" >> $GITHUB_OUTPUT
             fi
           done
@@ -79,12 +81,13 @@ jobs:
         id: validate_changie_entry
         if: steps.check_changes_dir.outputs.changes_dir_exists == 'true' && steps.check_labels.outputs.no_changie_required == 'false' && steps.check_labels.outputs.dependencies == 'false'
         run: |
-          if [ -z "$(ls -A .changes/unreleased)" ]; then
+          if [[ -z "$(ls -A .changes/unreleased)" ]]; then
             echo "No changie entry found in .changes/unreleased"
             gh pr comment ${{ github.event.pull_request.number }} --body "A changie entry is required in .changes/unreleased" --edit-last
             exit 1
           else
             echo "Changie entry found"
+            echo "✅ showing changie entry was found"
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
