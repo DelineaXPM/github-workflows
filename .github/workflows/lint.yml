@@ -108,14 +108,14 @@ jobs:
           if [[ -n "$changes" ]]; then
             echo "Changie entry found"
             comment="✅ changie entry was found"
-              gh pr review ${{ github.event.pull_request.number }} --approve
-              gh pr comment ${{ github.event.pull_request.number }} --body "$comment" --edit-last || gh pr comment ${{ github.event.pull_request.number }} --body "$comment"
+            gh pr review ${{ github.event.pull_request.number }} --approve --body "$comment"
+            gh pr comment ${{ github.event.pull_request.number }} --body "$comment" --edit-last || gh pr comment ${{ github.event.pull_request.number }} --body "$comment"
           else
             echo "No changie entry found in .changes"
             comment="❌ A changie entry is required in .changes/"
-              echo "adding review comment saying required, since not seeing prior comment before"
-              gh pr review ${{ github.event.pull_request.number }} --request-changes --body "$comment"
-              gh pr comment ${{ github.event.pull_request.number }} --body "$comment" --edit-last || gh pr comment ${{ github.event.pull_request.number }} --body "$comment"
+            echo "adding review comment saying required, since not seeing prior comment before"
+            gh pr review ${{ github.event.pull_request.number }} --request-changes --body "$comment"
+            gh pr comment ${{ github.event.pull_request.number }} --body "$comment" --edit-last || gh pr comment ${{ github.event.pull_request.number }} --body "$comment"
           fi
 
           # Update or post the review comment
