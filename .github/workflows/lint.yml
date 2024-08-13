@@ -83,7 +83,7 @@ jobs:
         run: |
           if [[ -z "$(ls -A .changes/unreleased)" ]]; then
             echo "No changie entry found in .changes/unreleased"
-            comment="A changie entry is required in .changes/unreleased"
+            comment="❌ A changie entry is required in .changes/unreleased"
           else
             echo "Changie entry found"
             comment="✅ showing changie entry was found"
