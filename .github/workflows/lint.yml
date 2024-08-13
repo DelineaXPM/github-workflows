@@ -57,9 +57,9 @@ jobs:
         run: |
           if [[ -d ".changes" ]]; then
             echo "changes_dir_exists=true" >> $GITHUB_OUTPUT
-            echo "⏩ no changie entry required on this"
           else
             echo "changes_dir_exists=false" >> $GITHUB_OUTPUT
+            echo "⏩ no changie entry required on this"
           fi
 
       - name: Check for labels
@@ -83,11 +83,13 @@ jobs:
         run: |
           if [[ -z "$(ls -A .changes/unreleased)" ]]; then
             echo "No changie entry found in .changes/unreleased"
-            gh pr comment ${{ github.event.pull_request.number }} --body "A changie entry is required in .changes/unreleased" --edit-last
-            exit 1
+            comment="A changie entry is required in .changes/unreleased"
           else
             echo "Changie entry found"
-            echo "✅ showing changie entry was found"
+            comment="✅ showing changie entry was found"
+          fi
+          if [[ -n "$comment" ]]; then
+            gh pr comment ${{ github.event.pull_request.number }} --body "$comment" --edit-last
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
