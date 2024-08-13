@@ -48,6 +48,10 @@ jobs:
   changie-validation:
     name: changie-validation
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+      checks: write
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
