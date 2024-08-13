@@ -1,0 +1,3 @@
+kind: new-product-feature
+body: Improve linting with additional job that validates changie entry exists when it should be included. Certain exclusions are added such as labels for `dependencies` by Renovate, and `no-changie-required` label for exceptions. This will use PR comment type so automatic changes required will show up.
+time: 2024-08-13T01:35:11.383368408Z
