@@ -90,7 +90,7 @@ jobs:
             comment="❌ A changie entry is required in .changes/unreleased"
           else
             echo "Changie entry found"
-            comment="✅ showing changie entry was found"
+            comment="✅ changie entry was found"
           fi
           if [[ -n "$comment" ]]; then
              gh pr comment ${{ github.event.pull_request.number }} --body "$comment" --edit-last || gh pr comment ${{ github.event.pull_request.number }} --body "$comment" --edit-last || gh pr comment ${{ github.event.pull_request.number }} --body "$comment" --edit-last || gh pr comment ${{ github.event.pull_request.number }} --body "$comment"
