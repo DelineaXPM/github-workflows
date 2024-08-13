@@ -72,9 +72,8 @@ jobs:
               echo "dependencies=true" >> $GITHUB_OUTPUT
             fi
           done
-        with:
-          env:
-            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Validate changie entry
         id: validate_changie_entry
         if: steps.check_changes_dir.outputs.changes_dir_exists == 'true' && steps.check_labels.outputs.no_changie_required == 'false' && steps.check_labels.outputs.dependencies == 'false'
@@ -86,6 +85,5 @@ jobs:
           else
             echo "Changie entry found"
           fi
-        with:
-          env:
-            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
