@@ -98,6 +98,8 @@ jobs:
         if: steps.check_changes_dir.outputs.changes_dir_exists == 'true' && steps.check_labels.outputs.no_changie_required == 'false' && steps.check_labels.outputs.dependencies == 'false'
         run: |
           changes=$(git diff --name-only --diff-filter=A origin/${{ env.DEFAULT_BRANCH }}...HEAD .changes/ )
+          changes=$(git diff --name-only origin/${{ env.DEFAULT_BRANCH }}...HEAD -- .changes/)
+
           if [[ -n "$changes" ]]; then
             echo "Changie entry found"
             comment="✅ changie entry was found"
