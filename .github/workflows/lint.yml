@@ -56,6 +56,11 @@ jobs:
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+      - name: Set up default branch name
+        id: default_branch
+        run: echo "DEFAULT_BRANCH=$(gh repo view --json defaultBranchRef -q '.defaultBranchRef.name')" >> $GITHUB_ENV
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Check for .changes directory
         id: check_changes_dir
         run: |
@@ -65,7 +70,9 @@ jobs:
             echo "changes_dir_exists=false" >> $GITHUB_OUTPUT
             echo "⏩ no changie entry required on this"
           fi
-
+      - name: Fetch default branch
+        run: git fetch origin ${{ env.DEFAULT_BRANCH }}
+        
       - name: Check for labels
         id: check_labels
         run: |
@@ -85,17 +92,18 @@ jobs:
         id: validate_changie_entry
         if: steps.check_changes_dir.outputs.changes_dir_exists == 'true' && steps.check_labels.outputs.no_changie_required == 'false' && steps.check_labels.outputs.dependencies == 'false'
         run: |
-          if [[ -z "$(git diff --name-only .changes/unreleased)" ]]; then
-            echo "No changie entry found in .changes/unreleased"
-            comment="❌ A changie entry is required in .changes/unreleased"
-            if ! gh pr view ${{ github.event.pull_request.number }} --comments | grep -q "❌ A changie entry is required in .changes/unreleased"; then
-              gh pr review ${{ github.event.pull_request.number }} --request-changes --body "$comment"
-            fi
-          else
+          changes=$(git diff --name-only --diff-filter=A origin/${{ env.DEFAULT_BRANCH }}...HEAD .changes/ )
+          if [[ -n "$changes" ]]; then
             echo "Changie entry found"
             comment="✅ changie entry was found"
             if ! gh pr view ${{ github.event.pull_request.number }} --comments | grep -q "✅ changie entry was found"; then
               gh pr review ${{ github.event.pull_request.number }} --comment --body "$comment"
+            fi
+          else
+            echo "No changie entry found in .changes"
+            comment="❌ A changie entry is required in .changes/"
+            if ! gh pr view ${{ github.event.pull_request.number }} --comments | grep -q "❌ A changie entry is required in .changes/unreleased"; then
+              gh pr review ${{ github.event.pull_request.number }} --request-changes --body "$comment"
             fi
           fi
           if [[ -n "$comment" ]]; then
