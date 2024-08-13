@@ -101,25 +101,33 @@ jobs:
         id: validate_changie_entry
         if: steps.check_changes_dir.outputs.changes_dir_exists == 'true' && steps.check_labels.outputs.no_changie_required == 'false' && steps.check_labels.outputs.dependencies == 'false'
         run: |
+          # Fetch existing comments
+          existing_comments=$(gh pr view ${{ github.event.pull_request.number }} --json comments --jq '.comments[].body')
+
           changes=$(git diff --name-only origin/${{ env.DEFAULT_BRANCH }}...HEAD -- .changes/)
 
           if [[ -n "$changes" ]]; then
             echo "Changie entry found"
             comment="✅ changie entry was found"
-            if ! gh pr view ${{ github.event.pull_request.number }} --comments | grep -q "✅ changie entry was found"; then
+            if ! echo "$existing_comments" | grep -q "✅ changie entry was found"; then
               gh pr review ${{ github.event.pull_request.number }} --approve
-            gh pr review ${{ github.event.pull_request.number }} --comment --body "$comment"
+              gh pr comment ${{ github.event.pull_request.number }} --body "$comment"
             fi
           else
             echo "No changie entry found in .changes"
             comment="❌ A changie entry is required in .changes/"
-            if ! gh pr view ${{ github.event.pull_request.number }} --comments | grep -q "❌ A changie entry is required in .changes/unreleased"; then
+            if ! echo "$existing_comments" | grep -q "❌ A changie entry is required in .changes/unreleased"; then
               gh pr review ${{ github.event.pull_request.number }} --request-changes --body "$comment"
             fi
           fi
+
+          # Update or post the review comment
           if [[ -n "$comment" ]]; then
-            gh pr review ${{ github.event.pull_request.number }} --approve
-            gh pr review ${{ github.event.pull_request.number }} --comment --body "$comment"
+            if echo "$existing_comments" | grep -q "$comment"; then
+              echo "Review comment already posted"
+            else
+              gh pr comment ${{ github.event.pull_request.number }} --body "$comment"
+            fi
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
