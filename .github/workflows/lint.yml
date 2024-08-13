@@ -117,7 +117,7 @@ jobs:
             fi
           fi
           if [[ -n "$comment" ]]; then
-            gh pr comment ${{ github.event.pull_request.number }} --body "$comment" --approve
+            gh pr review ${{ github.event.pull_request.number }} --comment --body "$comment" --approve
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
