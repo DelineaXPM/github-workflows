@@ -54,11 +54,12 @@ jobs:
       checks: write
     env:
       GH_TOKEN: ${{ github.token }}
+      GITHUB_REF_BRANCH: ${{ github.ref }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${{ github.head_ref }}
+          ref: ${{ env.GITHUB_REF_BRANCH }}
 
       - name: Set up default branch name
         id: default_branch
@@ -80,7 +81,7 @@ jobs:
         id: fetch_branches
         run: |
           git fetch origin ${{ env.DEFAULT_BRANCH }}
-          git fetch origin ${{ github.head_ref }}
+          git fetch origin ${{ env.GITHUB_REF_BRANCH }}
 
       - name: Check for labels
         id: check_labels
