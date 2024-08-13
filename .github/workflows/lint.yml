@@ -88,14 +88,18 @@ jobs:
           if [[ -z "$(git diff --name-only --diff-filter=A .changes/unreleased)" ]]; then
             echo "No changie entry found in .changes/unreleased"
             comment="❌ A changie entry is required in .changes/unreleased"
-            gh pr review ${{ github.event.pull_request.number }} --request-changes --body "$comment"
+            if ! gh pr view ${{ github.event.pull_request.number }} --comments | grep -q "❌ A changie entry is required in .changes/unreleased"; then
+              gh pr review ${{ github.event.pull_request.number }} --request-changes --body "$comment"
+            fi
           else
             echo "Changie entry found"
             comment="✅ changie entry was found"
-            gh pr review ${{ github.event.pull_request.number }} --comment --body "$comment"
+            if ! gh pr view ${{ github.event.pull_request.number }} --comments | grep -q "✅ changie entry was found"; then
+              gh pr review ${{ github.event.pull_request.number }} --comment --body "$comment"
+            fi
           fi
           if [[ -n "$comment" ]]; then
             gh pr comment ${{ github.event.pull_request.number }} --body "$comment" --edit-last || gh pr comment ${{ github.event.pull_request.number }} --body "$comment"
           fi
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.event.pull_request.number }}
