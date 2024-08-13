@@ -85,7 +85,7 @@ jobs:
         id: validate_changie_entry
         if: steps.check_changes_dir.outputs.changes_dir_exists == 'true' && steps.check_labels.outputs.no_changie_required == 'false' && steps.check_labels.outputs.dependencies == 'false'
         run: |
-          if [[ -z "$(git diff --name-only --diff-filter=A .changes/unreleased)" ]]; then
+          if [[ -z "$(git diff --name-only .changes/unreleased)" ]]; then
             echo "No changie entry found in .changes/unreleased"
             comment="❌ A changie entry is required in .changes/unreleased"
             if ! gh pr view ${{ github.event.pull_request.number }} --comments | grep -q "❌ A changie entry is required in .changes/unreleased"; then
