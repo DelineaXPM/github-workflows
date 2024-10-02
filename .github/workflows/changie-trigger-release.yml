@@ -103,7 +103,7 @@ jobs:
 
           echo "label format to use: $LABEL"
 
-          changie new --kind "⬆️ Dependencies" --body "Maintenance release due to updated dependencies."
+          changie new --kind "${LABEL}" --body "Maintenance release due to updated dependencies."
           changie batch auto
           changie merge
       - name: prepare-files-for-commit
