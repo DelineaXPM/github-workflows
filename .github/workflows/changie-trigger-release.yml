@@ -124,7 +124,7 @@ jobs:
           git add .
           echo "this is added because unknown files have their version replaced and we should make sure these get included in the PR."
       - name: add-additional-files
-        if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false' && ${{ inputs.additional_git_adds != '' &&  }}
+        if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false' && ${{ inputs.additional_git_adds != '' }}
         run: |
           echo "Adding additional files for commit..."
           git add ${{ inputs.additional_git_adds }}
