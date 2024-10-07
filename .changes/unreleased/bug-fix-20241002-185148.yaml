@@ -1,3 +1,0 @@
-kind: bug-fix
-body: Use the calculated label instead of hard coded value for the dependencies add.
-time: 2024-10-02T18:51:48.834542-05:00

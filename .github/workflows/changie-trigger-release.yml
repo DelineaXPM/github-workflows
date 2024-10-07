@@ -1,7 +1,17 @@
 name: changie-trigger-release
 on:
-  workflow_call: {}
-  workflow_dispatch: {}
+  workflow_call:
+    inputs:
+      additional_git_adds:
+        description: "Additional files to add to git, pass with single quotes and delimited with space `'file1.txt' 'folder/file2.txt'`"
+        required: false
+        type: string
+  workflow_dispatch:
+    inputs:
+      additional_git_adds:
+        description: "Additional files to add to git, pass with single quotes and delimited with space `'file1.txt' 'folder/file2.txt'`"
+        required: false
+        type: string
 
 env:
   BASE_BRANCH: 'main' # Default value for base branch
@@ -113,6 +123,11 @@ jobs:
           git add '.changes/*' 'CHANGELOG*.md' '*aqua.yaml'
           git add .
           echo "this is added because unknown files have their version replaced and we should make sure these get included in the PR."
+      - name: add-additional-files
+        if: steps.check_branch.outputs.BRANCH_ALREADY_EXISTS == 'false' && ${{ inputs.additional_git_adds != '' &&  }}
+        run: |
+          echo "Adding additional files for commit..."
+          git add ${{ inputs.additional_git_adds }}
       - name: trunk-fmt
         run: |
           trunk fmt
