@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Config Options: https://github.com/actions/stale#list-of-input-options
-      - uses: actions/stale@5ebf00ea0e4c1561e9b43a292ed34424fb1d4578 # tag=v6
+      - uses: actions/stale@28ca1036281a5e5922ead5184a1bbf96e5fc984e # v9
         with:
           days-before-stale: 14
           days-before-close: 5
