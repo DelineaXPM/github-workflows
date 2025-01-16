@@ -54,7 +54,7 @@ jobs:
           echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
       # no pinning of github managed action
       - name: Setup Golang caches
-        uses: actions/cache@e12d46a63a90f2fae62d114769bbf2a179198b5c # v3
+        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4
         with:
           path: |
             ${HOME}/.cache/go-build
@@ -80,6 +80,6 @@ jobs:
           GOTEST_DISABLE_RACE: 1
           # GOTEST_FLAGS: '${{ inputs.gotestflags }}'
 
-      - uses: codecov/codecov-action@ab904c41d6ece82784817410c45d8b8c02684457 # v3.1.6
+      - uses: codecov/codecov-action@1e68e06f1dbfde0e4cefc87efeba9e4643565303 # v5.1.2
         with:
           fail_ci_if_error: false
