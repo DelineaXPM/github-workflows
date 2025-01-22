@@ -1,4 +1,5 @@
 ---
+version: 2
 project_name: github-workflows
 dist: .artifacts/goreleaser
 env:
@@ -12,7 +13,7 @@ before:
     - go mod download
 builds: []
 changelog:
-  skip: false
+  disable: false
   sort: asc
   use: github
   groups:
