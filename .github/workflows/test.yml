@@ -36,16 +36,19 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - name: set-aqua-policy-if-file-exists
         run: |
-          if [ -f aqua-policy.yaml ]; then
+          if [[ -f aqua-policy.yaml ]]; then
             echo "AQUA_POLICY_CONFIG=${GITHUB_WORKSPACE}/aqua-policy.yaml:${AQUA_POLICY_CONFIG}" >> $GITHUB_ENV
+          elif [[ -f .aqua/aqua-policy.yaml ]]; then
+            echo "AQUA_POLICY_CONFIG=${GITHUB_WORKSPACE}/.aqua/aqua-policy.yaml:${AQUA_POLICY_CONFIG}" >> $GITHUB_ENV
           else
-            echo "👉 No aqua-policy.yaml file found, skipping setting AQUA_POLICY_CONFIG"
+            echo "👉 No aqua-policy.yaml or .aqua/aqua-policy.yaml file found, skipping setting AQUA_POLICY_CONFIG"
           fi
       - uses: aquaproj/aqua-installer@f13c5d2f0357708d85477aabe50fd3f725528745 # v3.1.0
         with:
           aqua_version: v2.42.2
           enable_aqua_install: true
           aqua_opts: '--tags test'
+          policy_allow: true
         env:
           AQUA_LOG_LEVEL: debug
           AQUA_OPTS: ''
