@@ -1,0 +1,25 @@
+---
+packages:
+  - type: github_release
+    repo_owner: codecov
+    repo_name: uploader
+    description: Codecov Uploader - standalone binary for uploading coverage reports
+    asset: codecov-{{.OS}}
+    format: raw
+    files:
+      - name: codecov
+    replacements:
+      darwin: macos
+    overrides:
+      - goos: linux
+        goarch: arm64
+        asset: codecov-aarch64
+      - goos: linux
+        goarch: amd64
+        asset: codecov-linux
+      - goos: darwin
+        asset: codecov-macos
+      - goos: windows
+        asset: codecov.exe
+        files:
+          - name: codecov.exe
