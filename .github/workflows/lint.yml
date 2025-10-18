@@ -34,7 +34,7 @@ jobs:
       - uses: aquaproj/aqua-installer@ea518c135a02fc11ff8024364510c181a5c6b342 # v4.0.3
         continue-on-error: true
         with:
-          aqua_version: v2.42.2
+          aqua_version: v2.55.0
           enable_aqua_install: true
           aqua_opts: '--tags lint' # if using aqua.yaml config any special items in your repo like Golangci-lint using tags so it only installs what's needed
         env:
