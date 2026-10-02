@@ -3,7 +3,7 @@
 # https://aquaproj.github.io/
 registries:
   - type: standard
-    ref: v4.569.0 # renovate: depName=aquaproj/aqua-registry
+    ref: v4.570.0 # renovate: depName=aquaproj/aqua-registry
 packages:
   - name: miniscruff/changie@v1.26.0
     tags:
@@ -14,7 +14,7 @@ packages:
   - name: charmbracelet/glow@v2.1.2
   - name: goreleaser/goreleaser@v2.18.2
   - name: mvdan/gofumpt@v0.12.0
-  - name: anchore/syft@v1.52.0
+  - name: anchore/syft@v1.54.0
   - name: golangci/golangci-lint@v1.64.8
     tags: ['lint']
   - name: git-town/git-town@v17.3.0
