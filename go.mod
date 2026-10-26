@@ -2,7 +2,7 @@ module github.com/DelineaXPM/github-workflows
 
 go 1.25.0
 
-toolchain go1.25.13
+toolchain go1.26.10
 
 require (
 	github.com/bitfield/script v0.24.0
