@@ -2,7 +2,7 @@ module github.com/DelineaXPM/github-workflows
 
 go 1.25.0
 
-toolchain go1.26.10
+toolchain go1.26.11
 
 require (
 	github.com/bitfield/script v0.24.0
@@ -28,6 +28,6 @@ require (
 	golang.org/x/mod v0.40.0 // indirect
 	golang.org/x/sys v0.44.0 // indirect
 	golang.org/x/term v0.26.0 // indirect
-	golang.org/x/text v0.39.0 // indirect
+	golang.org/x/text v0.41.0 // indirect
 	mvdan.cc/sh/v3 v3.7.0 // indirect
 )
